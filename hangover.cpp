@@ -1,11 +1,9 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
-#include <cmath>
 #include <cstring>
 #include <unordered_map>
 #include <iomanip>
-#include <stack>
 using namespace std;
 #define fast                          \
     ios_base::sync_with_stdio(false); \
@@ -14,4 +12,28 @@ using namespace std;
 #define ll long long
 #define uint unsigned int
 #define endl "\n"
-#define setbits(x) __builtin_popcountll(x) // returns no. of set bits (for GCC compiler.. Much faster) 
+
+void solve(float f)
+{
+    int i = 1;
+    float val = 0.5;
+    while(val <= f)
+    {
+        val += (float)(1/(float)(i+2));
+        i++;
+    }
+
+    cout << i << " card(s)" << endl;
+}
+
+int main() {
+    fast;
+    float f;
+    cin >> f;
+    while(f != 0.00)
+    {
+        solve(f);
+        cin >> f;
+    }
+    return 0;
+}
