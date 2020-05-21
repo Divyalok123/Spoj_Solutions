@@ -12,15 +12,82 @@ using namespace std;
 #define uint unsigned int
 #define endl "\n"
 
-string findNext(string s)
+// int arr[1000005];
+
+string clearzeroes(string s)
 {
-    int n = s.length();
-    int before = n/2-1;
-    int after = (n+1)/2;
-    while(before > 0)
+    int i = 0;
+    while(i < s.length() && s[i] == '0')
     {
-        
+        i++;
     }
+    return s.substr(i);
+}
+
+bool checkAllNine(string s)
+{
+    for(int i = 0; i < s.length(); i++)
+    {
+        if(s[i] != '9')
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+void findNext(string& arr, int n)
+{
+    int left = n/2-1;
+    int right = (n+1)/2;
+
+    int mid = n/2;
+    bool flag = false;
+    while(left >= 0 && arr[left] == arr[right])
+    {
+        left--;
+        right++;
+    }
+
+    if(left < 0 || arr[left] < arr[right])
+        flag = true;
+    
+    while(left >= 0)
+    {
+        arr[right] = arr[left];
+        left--;
+        right++;
+    }
+
+    if(flag == true)
+    {
+        int carry = 1;
+        if(n%2)
+        {
+            int num = (int)(arr[mid]-'0') + carry;
+            carry = num/10;
+            arr[mid] = (num%10 + '0');
+        }
+
+        left = n/2-1;
+        right = (n+1)/2;
+
+        while(left >= 0)
+        {
+            int num = (int)(arr[left]-'0') + carry;
+            carry = num/10;
+            arr[left] = (num%10 +'0');
+            arr[right] = arr[left];
+            left--;
+            right++;
+        }
+    }
+
+    // for(int i = 0; i < n; i++)
+    // {
+    //     cout << arr[i];
+    // }
+    // cout << endl;
 }
 
 int main()
@@ -32,8 +99,29 @@ int main()
     {
         string s;
         cin >> s;
-        string ans = findNext(s);
-        cout << ans << endl;        
+        s = clearzeroes(s);
+
+        if(checkAllNine(s))
+        {
+            string ans = "";
+            ans.push_back('1');
+            for(int i = 0; i < s.length()-1; i++)
+            {
+                ans.push_back('0');
+            }
+            ans.push_back('1');
+            cout << ans << endl;
+            continue;
+        }
+
+        // memset(arr, 0, sizeof(arr));
+        // for(int i = 0; i < s.length(); i++)
+        // {
+        //     arr[i] = s[i] - '0';
+        // }
+
+        findNext(s, s.length());
+        cout << s << endl;
     }
     return 0;
 }

@@ -15,31 +15,60 @@ using namespace std;
 
 ll arr[5005];
 
-ll solve(string s)
-{
-    if(s.length() == 0)
-        return -1;
+//Memo
+// ll solve(string s, int idx, int len)
+// {
+//     if(idx >= len)
+//         return 1;    
+    
+//     if(arr[idx]) 
+//     {
+//         return arr[idx];
+//     }
 
-    memset(arr, 0, sizeof(arr));
+//     if(s[idx] == '0') return 0;
+
+//     if((s[idx] == '1' || (s[idx] == '2' && s[idx+1] <= '6')) && idx + 1 < len)
+//     {
+//         if(s[idx + 1] == '0')
+//         {
+//             arr[idx] = solve(s, idx + 2, len);
+//         }
+//         else
+//         {
+//             arr[idx] = solve(s, idx+1, len) + solve(s, idx+2, len);
+//         }
+//     }
+//     else
+//     {
+//         arr[idx] = solve(s, idx+1, len);
+//     }
+
+//     return arr[idx];
+// }
+
+//Dp
+ll solve(string s, int len)
+{
+    if(len == 0) return 1;
+    
+    if(arr[0] == '0') return 0;
 
     arr[0] = 1;
     if(s[0] > '2' && s[1] == '0') return 0;
-    else if(s[1] == '0' || (s[0] == '2' && s[1] > '6') || s[0] > '2') arr[1] = 1;
+    if(s[1] == '0' || (s[1] > '6' && s[0] >='2') || s[0] > '2') arr[1] = 1;
     else arr[1] = 2;
 
-    for(int i = 2; i < s.length(); i++)
+    for(int i = 2; i < len; i++)
     {
-        if(s[i] == '0' && s[i-1] > '2') return 0;
-        else if(s[i] == '0' && s[i-2] == '0') arr[i] = arr[i-2];
-        else if(s[i] == '0') arr[i] = arr[i-1]-1;
-        else if(s[i-1] > '2' || (s[i-1] == '2' && s[i] > '6')) arr[i] = arr[i-1];
-        else if(s[i-1] == '0') arr[i] = arr[i-2];
-        else arr[i] = arr[i-1] + arr[i-2];
-    } 
+        if(s[i] == '0' && (s[i-1] > '2' || s[i-1] =='0')) return 0;
+        if(s[i] == '0') arr[i] = arr[i-2];
+        else if(s[i-1] == '1' || (s[i-1] == '2' && s[i] <= '6')) arr[i] = arr[i-1] + arr[i-2];       
+        else arr[i] = arr[i-1];
+    }
 
-    return arr[s.length()-1];
+    return arr[len-1];
 }
-
 
 int main()
 {
@@ -48,7 +77,8 @@ int main()
     cin >> s;
     while (s != "0")
     {
-        ll ans = solve(s);
+        memset(arr, 0, sizeof(arr));
+        ll ans = solve(s, s.length());
         cout << ans << endl;
         cin >> s;
     }
