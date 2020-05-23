@@ -19,3 +19,31 @@ using namespace std;
 #define setbits(x) __builtin_popcountll(x) // returns no. of set bits (for GCC compiler.. Much faster) 
 typedef priority_queue<int> maxheap;
 typedef priority_queue<int, vector<int>, greater<int>> minheap; 
+
+
+int main() 
+{
+    fast;
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        ll x, y, z; //z == sum
+        cin >> x >> y >> z;
+
+        ll n = (2*z)/(x+y); //no. of elements
+        ll d = (y-x)/(n-5); //diff
+        ll a = (x - (2*d)); // first element
+
+        cout << n << endl;
+        int i = 0;
+        while(i < n)
+        {
+            cout << a + (i*d) << " ";
+            i++;
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
