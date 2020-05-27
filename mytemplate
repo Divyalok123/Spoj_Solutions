@@ -8,6 +8,9 @@
 #include <stdexcept>
 #include <stack>
 #include <queue>
+#include <vector>
+#include <list>
+
 using namespace std;
 #define fast                          \
     ios_base::sync_with_stdio(false); \
@@ -15,6 +18,7 @@ using namespace std;
     cout.tie(0)
 #define ll long long
 #define uint unsigned int
+#define ull unsigned long long
 #define endl "\n"
 #define setbits(x) __builtin_popcountll(x) // returns no. of set bits (for GCC compiler.. Much faster) 
 typedef priority_queue<int> maxheap;
