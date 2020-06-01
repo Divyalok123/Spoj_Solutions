@@ -19,6 +19,8 @@ using namespace std;
 typedef priority_queue<int> maxheap;
 typedef priority_queue<int, vector<int>, greater<int>> minheap; 
 
+/* Still have to implement using  BIT tree, Segment, Fenwick Tree and PBDS(policy based data structure) */
+
 int main() {
     fast;
     int t;
