@@ -69,6 +69,35 @@ void buildTree(ll* arr, int v, int start, int end)
     }
 }
 
+//not asked in the question 
+void update(ll* arr, int v, int pos, int value, int start, int end)
+{
+    if(start == end)
+    {
+        store temp;
+        temp.maxsubsum = (ll)value;
+        temp.maxpresum = (ll)value;
+        temp.maxsuffsum = (ll)value;
+        temp.totalsum = (ll)value;
+        tree[v] = temp;
+    }
+    else
+    {
+        cout << "after if" << endl;
+
+        int mid = start + (end - start)/2;
+        if(pos <= mid)
+            update(arr, 2*v, pos, value, start, mid);
+        else
+            update(arr, 2*v+1, pos, value, mid+1, end);
+
+        cout << "after conditions" << endl;
+        store x = merge(tree[v*2], tree[v*2 + 1]);
+        tree[v] = x;  
+    }
+      
+}
+
 store query(ll*arr, int v, int start, int end, int l, int r)
 {
     if(l <= start && r >= end)
@@ -105,12 +134,27 @@ int main()
     cin >> m;
     while(m--)
     {
-        int l, r;
-        cin >> l >> r;
-        l--;
-        r--;
-        store ans = query(arr, 1, 0, n-1, l, r);
-        cout << ans.maxsubsum << endl;
+        // int l, r;
+        // cin >> l >> r;
+        // l--;
+        // r--;
+        // store ans = query(arr, 1, 0, n-1, l, r);
+        // cout << ans.maxsubsum << endl;
+
+        //just for practice (comment this and uncomment above code for given question)
+        int type, first, second;
+        cin >> type >> first >> second;
+        if(type == 1)
+        {
+            cout << "query call !" << endl;
+            store ans = query(arr, 1, 0, n-1, first-1, second-1);
+            cout << ans.maxsubsum << endl;
+        }
+        else
+        {
+            cout << "Update call !" << endl;    
+            update(arr, 1, first-1, second, 0, n-1);  
+        }
     }
     
     return 0;   
