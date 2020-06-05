@@ -16,10 +16,28 @@ using namespace std;
     ios_base::sync_with_stdio(false); \
     cin.tie(0);                       \
     cout.tie(0)
-#define ll long long
-#define uint unsigned int
-#define ull unsigned long long
+
 #define endl "\n"
-#define setbits(x) __builtin_popcountll(x) // returns no. of set bits (for GCC compiler.. Much faster) 
+#define Max(x, y, z) max(x, max(y, z))
+#define Min(x, y, z) min(x, min(y, z))
+#define setbits(x) __builtin_popcountll(x)
+#define PI 3.141592653589793
+#define mod 1000000007
+
+typedef pair<int, int> pii;
 typedef priority_queue<int> maxheap;
 typedef priority_queue<int, vector<int>, greater<int>> minheap; 
+typedef long long ll;
+typedef unsigned int uint;
+typedef unsigned long long ull;
+
+template<typename T> T gcd(T a,T b) { if(a==0) return b; return gcd(b%a,a); }
+template<typename T> T pow(T a,T b, ll m){T ans=1; while(b>0){ if(b%2==1) ans=(ans*a)%m; b/=2; a=(a*a)%m; } return ans%m; }
+
+int main()
+{
+    fast;
+    
+
+    return 0;
+}

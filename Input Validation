@@ -1,0 +1,20 @@
+int a;
+cin>>a;
+while(1)
+{
+    if(cin.fail()) //to check for wrong input
+    {
+        cin.clear(); //to clear error state of buffer
+        cin.ignore(numeric_limits<streamsize>::max(),’\n’); //to ignore the rest when first instance of error is found 
+        cout<<“You have entered wrong input”<<endl;
+        cin>>a;
+    }
+
+    if(!cin.fail())
+        break;
+}
+
+/* we also have:
+cin.eof(): This function can be used to check end of file errors. This returns 1 if the program tried reading something 
+           but , it was from the end of the file.
+*/
