@@ -31,3 +31,5 @@
 <++++.
 >----.----.--.
 <.
+
+// Prints "SPOJ is indeed awesome"
