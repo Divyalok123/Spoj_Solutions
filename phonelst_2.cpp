@@ -6,21 +6,38 @@
 using namespace std;
 
 class TrieNode {
+public:
     TrieNode* arr[10];
-    bool isTreminal;
+    bool isTerminal;
     TrieNode() {
         for(int i = 0; i < 10; i++)
         {
             arr[i] = NULL;
         }
-        this->isTreminal = false;
+        this->isTerminal = false;
     }
 };
 
-bool insert(string num, TrieNode* root, bool& flag)
+void insert(TrieNode* root, string key, bool& flag)
 {
-    
+    TrieNode* temp = root;
+    bool check = false;
+    for(int i = 0; i < key.length(); i++)
+    {
+        int ind = key[i]-'0';
+        if(temp->isTerminal) flag = false;
+        if(temp->arr[ind] == NULL)
+        {
+            check = true;
+            TrieNode* newn = new TrieNode();
+            temp->arr[ind] = newn;
+        }
+        temp = temp->arr[ind];
+    }
+    if(!check) flag = false;
+    temp->isTerminal = true;
 }
+
 
 int main () {
     ios_base::sync_with_stdio(false);
@@ -34,11 +51,11 @@ int main () {
         cin >> n;
         string num;
         bool flag = true;
-
+        TrieNode* newnode = new TrieNode();
         for(int i = 0; i < n; i++)
         {
             cin >> num;
-            
+            insert(newnode, num, flag);
         }
 
         if(flag)
