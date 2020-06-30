@@ -37,7 +37,10 @@ template<typename T> T pow(T a,T b, ll m){T ans=1; while(b>0){ if(b%2==1) ans=(a
 int main()
 {
     fast;
-    
+    #ifndef ONLINE_JUDGE 
+    freopen("input.txt", "r", stdin); 
+    freopen("output.txt", "w", stdout); 
+    #endif
 
     return 0;
 }
