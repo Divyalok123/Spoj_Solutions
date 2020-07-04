@@ -5,49 +5,59 @@
 using namespace std;
 
 vector<vector<int>> edges;
-int path1[1005], path2[1005];
 
-void dfs(int curr, int prev, int node, bool& flag, int* path, int index)
-{
-    cout << "in dfs" << endl;
-    for(int i = 1; i <= edges[curr].size(); i++)
+bool storepath(int s, int d,  vector<int>& path, vector<bool>& visited) {
+    if(s == d)
     {
-        if(edges[curr][i] != prev && !flag)
+        path.push_back(d);
+        return true;
+    }
+
+    else if(edges[s].size() == 1) {
+        if(s != d)
         {
-            path[index] = edges[curr][i];
-            if(edges[curr][i] == node)
-            {
-                flag = true;
-                path[index+1] = -1;
-                return;
-            }
-            dfs(edges[curr][i], curr, node, flag, path, index+1);
+            for(int i = 0; i < path.size(); i++)
+                if(path[i] == s) {
+                    path.erase(path.begin() + i);
+                }
+        }
+        return false;
+    }
+
+    visited[s] = true;
+    path.push_back(s);
+    for(auto e: edges[s])
+    {
+        if(visited[e] == false)
+        { 
+            bool ans = storepath(e, d, path, visited);
+            if(ans)
+                break;
         }
     }
-    cout << "dfs end" << endl;
 }
 
 int LCA(int a, int b)
 {
     if(a == b)
         return a;
-    cout << "in lca" << endl;
-    path1[1] = path2[1] = path1[0] = path2[0] = 1;
+    vector<int> path1, path2;
 
-    bool found = false;
-    dfs(1, 0, a, found, path1, 2);
+    vector<bool> visited(edges.size(), false);
+    storepath(1, a, path1, visited);
+    visited.assign(edges.size(), false);
+    storepath(1, b, path2, visited);
 
-    cout << "point 1" << endl;
+    int n = path1.size();       
+    int m = path2.size();
 
-    found = false;
-    dfs(1, 0, b, found, path2, 2);
-
-    cout << "point 2" << endl;
-    int i = 0;
-    while(path1[i] == path2[i])
+    int i = 0,j = 0;
+    while(i < n && j < m && path1[i] == path2[j]) {
         i++;
-    cout << "i: " << i << endl;
-    return path1[i];
+        j++;
+    }
+
+    return path1[i-1];
 }
 
 int main() {
@@ -62,7 +72,7 @@ int main() {
         int n;
         cin >> n;
 
-        edges.resize(n+1);
+        edges.resize(n+100);
         for(int i = 1; i <= n; i++)
         {
             int size, val;
@@ -75,16 +85,15 @@ int main() {
             }
         }
 
+
         int q;
         cin >> q;
-        cout << "Case " << Case << ": " << endl;
+        cout << "Case "<< Case << ":" << endl;
         while(q--)
         {
             int a, b;
             cin >> a >> b;
-            cout << "in while s" << endl;
             cout << LCA(a, b) << endl;
-            cout << "in while e" << endl;
         }
         Case++;
     }
