@@ -3,61 +3,36 @@
 #include <cmath>
 #include <cstring>
 using namespace std;
-
+#define endl '\n'
 vector<vector<int>> edges;
-
-bool storepath(int s, int d,  vector<int>& path, vector<bool>& visited) {
-    if(s == d)
-    {
-        path.push_back(d);
-        return true;
-    }
-
-    else if(edges[s].size() == 1) {
-        if(s != d)
-        {
-            for(int i = 0; i < path.size(); i++)
-                if(path[i] == s) {
-                    path.erase(path.begin() + i);
-                }
+int path[1005][1005];
+void storepath(int curr, int prev, int des, int x, int ind, bool& flag) {
+    for(int i = 0; i < (int)edges[curr].size(); i++)
+        if(edges[curr][i] != prev && flag == false) {
+            path[x][ind] = edges[curr][i];
+            if(edges[curr][i] == des) {
+                flag = true;
+                path[x][ind+1] = -1;
+                return;
+            }
+            storepath(edges[curr][i], curr, des, x, ind+1, flag);
         }
-        return false;
-    }
-
-    visited[s] = true;
-    path.push_back(s);
-    for(auto e: edges[s])
-    {
-        if(visited[e] == false)
-        { 
-            bool ans = storepath(e, d, path, visited);
-            if(ans)
-                break;
-        }
-    }
 }
 
-int LCA(int a, int b)
+void LCA()
 {
-    if(a == b)
-        return a;
-    vector<int> path1, path2;
+    int size = edges.size();
 
-    vector<bool> visited(edges.size(), false);
-    storepath(1, a, path1, visited);
-    visited.assign(edges.size(), false);
-    storepath(1, b, path2, visited);
+    for(int i = 0; i < 1001; i++) {
+        path[i][0] = 1;
+    }
+    path[1][1] = -1;
 
-    int n = path1.size();       
-    int m = path2.size();
-
-    int i = 0,j = 0;
-    while(i < n && j < m && path1[i] == path2[j]) {
-        i++;
-        j++;
+    for(int i = 2; i < size; i++) {
+        bool flag = false;
+        storepath(1, 0, i, i, 1, flag);
     }
 
-    return path1[i-1];
 }
 
 int main() {
@@ -72,7 +47,7 @@ int main() {
         int n;
         cin >> n;
 
-        edges.resize(n+100);
+        edges.resize(n+1);
         for(int i = 1; i <= n; i++)
         {
             int size, val;
@@ -84,18 +59,26 @@ int main() {
                 edges[val].push_back(i);
             }
         }
+        memset(path, 0, sizeof(path));
+        LCA();
 
-
+        cout << "Case "<< Case << ":" << endl;
         int q;
         cin >> q;
-        cout << "Case "<< Case << ":" << endl;
+
         while(q--)
         {
             int a, b;
             cin >> a >> b;
-            cout << LCA(a, b) << endl;
+            int i = 0;
+            while(path[a][i] != -1 && path[a][i] == path[b][i]) {
+                i++;
+            }
+
+            cout << path[a][i-1] << endl;            
         }
         Case++;
+        edges.clear();
     }
 
     return 0;   
