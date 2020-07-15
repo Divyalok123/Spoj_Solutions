@@ -8,7 +8,6 @@ int concat(string &a, string &b)
 {
     int len1 = a.length();
     int len2 = b.length();
-
     if (len1 < len2)
     {
         for (int i = 0; i < len2 - len1; i++)
@@ -19,7 +18,6 @@ int concat(string &a, string &b)
         for (int i = 0; i < len1 - len2; i++)
             b = "0" + b;
     }
-
     return a.length();
 }
 
@@ -30,7 +28,6 @@ void remove(string &a)
     {
         i++;
     }
-
     a = a.substr(i);
 }
 

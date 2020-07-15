@@ -20,6 +20,7 @@
         "utility": "cpp",
         "map": "cpp",
         "cmath": "cpp",
-        "xlocale": "cpp"
+        "xlocale": "cpp",
+        "cstring": "cpp"
     }
 }
